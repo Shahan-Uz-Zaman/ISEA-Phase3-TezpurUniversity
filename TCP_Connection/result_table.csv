@@ -1,0 +1,7 @@
+roll_no,name,mode,bandwidth_mbps,delay_ms,message_size_bytes,total_messages,average_response_time_seconds,throughput_bytes_per_second,status
+CS-BTC24-23,Shahan Uz Zaman,persistent,5,50,128,10,0.20061847110009695,638.026993716523,Success
+CS-BTC24-23,Shahan Uz Zaman,persistent,5,50,512,10,0.20055663849993835,2552.894802333643,Success
+CS-BTC24-23,Shahan Uz Zaman,persistent,5,50,1024,10,0.2004208703999666,5109.248343031698,Success
+CS-BTC24-23,Shahan Uz Zaman,new_connection,5,50,128,10,0.20055152619997899,638.2399696742543,Success
+CS-BTC24-23,Shahan Uz Zaman,new_connection,5,50,512,10,0.20044664940000984,2554.2956269538663,Success
+CS-BTC24-23,Shahan Uz Zaman,new_connection,5,50,1024,10,0.20034400100007588,5111.208695485782,Success
