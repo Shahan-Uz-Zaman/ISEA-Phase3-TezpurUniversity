@@ -1,0 +1,4 @@
+timestamp,sender,receiver,message_type,message
+2026-08-03 22:46:25,shahan,ALL,broadcast,hello everyone
+2026-08-03 22:48:05,rashmi,shahan,private,hi
+2026-08-03 22:48:33,rashmi,shahan,private,/msg shahan hello shahan
