@@ -1,0 +1,7 @@
+Assignment 8 - Handwritten Reflection Questions
+
+1. Which optimization produced the greatest improvement?
+2. Why is scalability important?
+3. What reliability issues did you discover?
+4. Which optimization was the most difficult?
+5. What additional improvements are required to support 100 users?

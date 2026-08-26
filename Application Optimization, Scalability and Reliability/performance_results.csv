@@ -1,0 +1,1 @@
+timestamp,mode,clients,messages,errors,avg_delay_ms,throughput_msgs_per_sec,cpu_percent,memory_mb,duration_sec

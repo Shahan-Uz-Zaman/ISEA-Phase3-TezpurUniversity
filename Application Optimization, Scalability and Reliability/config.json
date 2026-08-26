@@ -1,0 +1,51 @@
+{
+  "server": {
+    "host": "10.0.0.1",
+    "port": 5000,
+    "backlog": 20,
+    "max_workers": 10,
+    "socket_timeout": 5,
+    "shutdown_timeout": 5
+  },
+  "security": {
+    "users_file": "users.csv",
+    "security_log_file": "security_log.txt",
+    "session_timeout": 300,
+    "lockout_duration": 60,
+    "max_failed_attempts": 5
+  },
+  "application": {
+    "history_file": "chat_history.csv",
+    "performance_file": "performance_results.csv",
+    "buffer_size": 4096,
+    "max_username_length": 20,
+    "max_password_length": 128,
+    "max_message_length": 1000,
+    "max_clients": 10
+  },
+  "reliability": {
+    "accept_timeout": 1.0,
+    "cleanup_interval": 2.0
+  },
+  "client": {
+    "host": "10.0.0.1",
+    "port": 5000,
+    "connect_timeout": 10,
+    "reconnect_attempts": 5,
+    "reconnect_delay": 2,
+    "buffer_size": 4096,
+    "max_username_length": 20,
+    "max_password_length": 128,
+    "max_message_length": 1000
+  },
+  "performance": {
+    "target_clients": [
+      5,
+      8,
+      10
+    ],
+    "messages_per_client": 20,
+    "warmup_seconds": 2,
+    "test_seconds": 10
+  }
+}

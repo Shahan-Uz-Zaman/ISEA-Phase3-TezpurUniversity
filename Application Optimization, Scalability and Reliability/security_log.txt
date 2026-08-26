@@ -1,0 +1,34 @@
+2026-08-26 22:12:53 | LOGIN_FAILED | user=shahan | addr=10.0.0.2:43850 | credentials rejected
+2026-08-26 22:12:57 | SIGNUP_SUCCESS | user=shahan | addr=10.0.0.2:43856 | account created
+2026-08-26 22:13:09 | LOGIN_SUCCESS | user=shahan | addr=10.0.0.2:52110 | authentication successful
+2026-08-26 22:13:14 | CLIENT_DISCONNECTED | user=shahan | addr=10.0.0.2:52110 | peer closed connection
+2026-08-26 22:13:14 | CLIENT_CLEANUP | user=shahan | addr=- | handler_exit
+2026-08-26 22:15:54 | LOGIN_SUCCESS | user=shahan | addr=10.0.0.2:50212 | authentication successful
+2026-08-26 22:16:06 | CLIENT_DISCONNECTED | user=shahan | addr=10.0.0.2:50212 | peer closed connection
+2026-08-26 22:16:06 | CLIENT_CLEANUP | user=shahan | addr=- | handler_exit
+2026-08-26 22:17:50 | LOGIN_SUCCESS | user=shahan | addr=10.0.0.2:48160 | authentication successful
+2026-08-26 22:18:03 | SIGNUP_SUCCESS | user=rashmi | addr=10.0.0.3:37286 | account created
+2026-08-26 22:18:09 | LOGIN_SUCCESS | user=rashmi | addr=10.0.0.3:37298 | authentication successful
+2026-08-26 22:18:23 | LOGOUT | user=shahan | addr=10.0.0.2:48160 | client requested logout
+2026-08-26 22:18:23 | CLIENT_CLEANUP | user=shahan | addr=- | handler_exit
+2026-08-26 22:18:24 | LOGOUT | user=rashmi | addr=10.0.0.3:37298 | client requested logout
+2026-08-26 22:18:24 | CLIENT_CLEANUP | user=rashmi | addr=- | handler_exit
+2026-08-26 22:21:24 | SIGNUP_SUCCESS | user=super | addr=10.0.0.2:33570 | account created
+2026-08-26 22:22:14 | LOGIN_SUCCESS | user=super | addr=10.0.0.2:38580 | authentication successful
+2026-08-26 22:24:17 | LOGIN_SUCCESS | user=shahan | addr=10.0.0.3:42968 | authentication successful
+2026-08-26 22:24:40 | LOGIN_SUCCESS | user=rashmi | addr=10.0.0.4:43328 | authentication successful
+2026-08-26 22:27:19 | CLIENT_ERROR | user=super | addr=10.0.0.2:38580 | OSError
+2026-08-26 22:27:19 | CLIENT_CLEANUP | user=super | addr=- | server_shutdown
+2026-08-26 22:27:19 | CLIENT_CLEANUP | user=shahan | addr=- | server_shutdown
+2026-08-26 22:27:19 | CLIENT_ERROR | user=shahan | addr=10.0.0.3:42968 | OSError
+2026-08-26 22:27:19 | CLIENT_ERROR | user=rashmi | addr=10.0.0.4:43328 | OSError
+2026-08-26 22:27:19 | CLIENT_CLEANUP | user=rashmi | addr=- | server_shutdown
+2026-08-26 22:27:27 | LOGIN_SUCCESS | user=rashmi | addr=10.0.0.4:37720 | authentication successful
+2026-08-26 22:27:27 | LOGIN_SUCCESS | user=shahan | addr=10.0.0.3:42310 | authentication successful
+2026-08-26 22:27:27 | LOGIN_SUCCESS | user=super | addr=10.0.0.2:52072 | authentication successful
+2026-08-26 22:29:26 | LOGOUT | user=super | addr=10.0.0.2:52072 | client requested logout
+2026-08-26 22:29:26 | CLIENT_CLEANUP | user=super | addr=- | handler_exit
+2026-08-26 22:29:29 | LOGOUT | user=shahan | addr=10.0.0.3:42310 | client requested logout
+2026-08-26 22:29:29 | CLIENT_CLEANUP | user=shahan | addr=- | handler_exit
+2026-08-26 22:29:32 | LOGOUT | user=rashmi | addr=10.0.0.4:37720 | client requested logout
+2026-08-26 22:29:32 | CLIENT_CLEANUP | user=rashmi | addr=- | handler_exit

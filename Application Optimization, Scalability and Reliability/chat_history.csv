@@ -1,0 +1,6 @@
+timestamp,sender,receiver,message_type,message
+2026-08-26 22:18:13,rashmi,ALL,broadcast,hi
+2026-08-26 22:18:17,shahan,ALL,broadcast,his
+2026-08-26 22:24:54,rashmi,ALL,broadcast,hi
+2026-08-26 22:24:58,shahan,ALL,broadcast,hello
+2026-08-26 22:25:24,super,ALL,broadcast,what are you doing
