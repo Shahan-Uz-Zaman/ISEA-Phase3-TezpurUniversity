@@ -2799,3 +2799,831 @@ Future improvements may include:
 # 🎓 Conclusion
 
 This assignment represents the culmination of the Network Programming laboratory by integrating **TCP Socket Programming**, **Multithreading**, **Concurrent Client Management**, and **Advanced Messaging Features** into a complete communication platform. The project demonstrates the principles behind real-world messaging systems, emphasizing scalability, reliability, and efficient resource management. It provides practical experience in designing robust network applications and establishes a strong foundation for developing enterprise-level communication systems and distributed applications.
+
+
+---
+
+# Assignment 7: Secure Multi-Client Chat Application
+
+## 📌 Overview
+
+This assignment extends the Advanced Multi-Client Chat Server developed in Assignment 6 by adding practical security mechanisms. The existing TCP multi-client architecture was retained and enhanced with **user registration, authentication, password hashing, input validation, duplicate-login prevention, failed-login protection, session management, logout, and security logging**.
+
+A GUI-based client is used for user interaction, while the server manages authentication and multiple concurrent TCP connections. The application also uses Wireshark to verify TCP communication during login, failed login, authenticated communication, and logout.
+
+---
+
+## 🎯 Objectives
+
+The objectives of this assignment are to:
+
+- Add secure user registration and authentication.
+- Implement a Sign Up option in the GUI client.
+- Store passwords as SHA-256 hashes instead of plain text.
+- Prevent duplicate active logins.
+- Validate usernames, passwords, commands, and messages.
+- Protect against repeated failed login attempts.
+- Manage authenticated user sessions.
+- Implement secure logout and inactivity timeout.
+- Maintain security logs without storing passwords.
+- Verify TCP communication using Wireshark.
+
+---
+
+## 📚 Learning Outcomes
+
+After completing this assignment, the following concepts are understood:
+
+- User Authentication
+- User Registration
+- Password Hashing
+- SHA-256
+- Input Validation
+- Session Management
+- Duplicate Login Prevention
+- Failed Login Protection
+- Security Logging
+- TCP Security Testing
+- Wireshark Packet Analysis
+
+---
+
+## 🏗 System Architecture
+
+```text
+                  +-------------------------+
+                  |       TCP Server        |
+                  |       Port 5000         |
+                  +-----------+-------------+
+                              |
+                +-------------+-------------+
+                |             |             |
+                ▼             ▼             ▼
+          +---------+   +---------+   +---------+
+          | Client1 |   | Client2 |   | Client3 |
+          | Tkinter |   | Tkinter |   | Tkinter |
+          +---------+   +---------+   +---------+
+                \             |             /
+                 \            |            /
+                  +-----------+-----------+
+                              |
+                       Authentication
+                              |
+                    +---------+---------+
+                    |                   |
+                    ▼                   ▼
+                users.csv       security_log.txt
+```
+
+### Security Data Flow
+
+```text
+Password
+   │
+   ▼
+SHA-256 Hash
+   │
+   ▼
+users.csv
+
+Login / Logout / Failed Login
+   │
+   ▼
+security_log.txt
+```
+
+---
+
+## 🔐 Security Features Implemented
+
+### 1. User Registration
+
+A **Sign Up** option was added to the GUI client. A new user provides a username and password, and the server checks whether the username already exists.
+
+Successful registration allows the user to log in using the same credentials.
+
+### 2. Password Hashing
+
+Passwords are not stored as plain text. The server uses SHA-256 hashing before storing credentials.
+
+```text
+Plain Password
+      ↓
+   SHA-256
+      ↓
+Password Hash
+      ↓
+users.csv
+```
+
+### 3. Authentication
+
+During login, the submitted password is hashed and compared with the stored hash.
+
+```text
+Username + Password
+        ↓
+   Authentication
+        ↓
+ ┌──────┴──────┐
+ ▼             ▼
+Success       Failure
+```
+
+### 4. Duplicate Login Prevention
+
+The server maintains active sessions and prevents the same username from creating multiple simultaneous authenticated sessions.
+
+### 5. Input Validation
+
+The server validates:
+
+- Username format
+- Password length
+- Empty messages
+- Unsupported commands
+- Message length
+- Invalid private-message targets
+
+### 6. Failed Login Protection
+
+Repeated failed login attempts are tracked. After the configured number of failed attempts, the account is temporarily blocked.
+
+### 7. Session Management
+
+Authenticated sessions are tracked by the server. Logout and inactivity timeout remove inactive clients and release their resources.
+
+### 8. Security Logging
+
+Important security events are recorded in:
+
+```text
+security_log.txt
+```
+
+Examples include:
+
+- Successful login
+- Failed login
+- Account registration
+- Logout
+- Blocked login attempts
+
+Passwords are never written to the security log.
+
+---
+
+## ⚙️ Working Principle
+
+```text
+                 Start Client
+                      │
+                      ▼
+                 Sign Up / Login
+                      │
+             ┌────────┴────────┐
+             │                 │
+          Sign Up             Login
+             │                 │
+             ▼                 ▼
+       Create Account     Verify Credentials
+             │                 │
+             └────────┬────────┘
+                      ▼
+                Authentication
+                      │
+               ┌──────┴──────┐
+               │             │
+             Valid         Invalid
+               │             │
+               ▼             ▼
+          Enter Chat      Reject/Login
+               │
+               ▼
+       Broadcast / Private
+               │
+               ▼
+          Logout / Timeout
+               │
+               ▼
+         Session Cleanup
+```
+
+---
+
+## 📂 Project Structure
+
+```text
+Assignment-07-Secure-Multi-Client-Chat/
+│
+├── server.py
+├── client_gui.py
+├── users.csv
+├── security_log.txt
+├── chat_history.csv
+├── config.json
+│
+├── screenshots/
+│   ├── signup.png
+│   ├── successful_login.png
+│   ├── failed_login.png
+│   ├── chat.png
+│   ├── logout.png
+│   └── wireshark_capture.png
+│
+└── README.md
+```
+
+---
+
+## 🛠 Technologies Used
+
+| Technology | Purpose |
+|------------|---------|
+| Python 3 | Application Development |
+| TCP Socket | Client-Server Communication |
+| Tkinter | GUI Client |
+| SHA-256 | Password Hashing |
+| CSV | Credential and Data Storage |
+| Wireshark | Network Verification |
+| Ubuntu Linux | Development Platform |
+| Git & GitHub | Version Control |
+
+---
+
+## ▶️ Execution Steps
+
+### Start the Server
+
+```bash
+python3 server.py
+```
+
+The server listens on TCP port:
+
+```text
+5000
+```
+
+### Start the GUI Client
+
+```bash
+python3 client_gui.py
+```
+
+### Create an Account
+
+1. Enter a username.
+2. Enter a password.
+3. Click **Sign Up**.
+4. Wait for the registration-success message.
+5. Use the same credentials to log in.
+
+---
+
+## 🧪 Security Testing
+
+| Test Case | Expected Result |
+|-----------|-----------------|
+| New username registration | Account created |
+| Existing username registration | Registration rejected |
+| Correct credentials | Login successful |
+| Incorrect password | Login rejected |
+| Repeated failed login | Temporary account blocking |
+| Duplicate active login | Second login rejected |
+| Empty username | Rejected |
+| Empty password | Rejected |
+| Invalid message | Rejected |
+| Logout | Session terminated |
+| Inactivity timeout | Session removed |
+
+---
+
+## 📡 Wireshark Verification
+
+Wireshark was used to verify TCP traffic generated by the application.
+
+### Display Filter
+
+```text
+tcp.port == 5000
+```
+
+The following scenarios were captured:
+
+1. Successful login
+2. Failed login
+3. Authenticated chat communication
+4. Logout
+5. TCP connection establishment and termination
+
+### Screenshots
+
+Recommended screenshots:
+
+```text
+screenshots/
+├── successful_login_wireshark.png
+├── failed_login_wireshark.png
+├── authenticated_communication.png
+└── logout_wireshark.png
+```
+
+---
+
+## 📊 Results
+
+The secure chat application successfully integrates authentication and security controls with the existing multi-client TCP communication system.
+
+The implementation provides:
+
+- Secure account registration
+- Password hashing
+- Authenticated sessions
+- Duplicate-login prevention
+- Failed-login protection
+- Input validation
+- Session timeout
+- Security logging
+- Multi-client communication
+- Wireshark-verifiable TCP traffic
+
+---
+
+## 🎓 Conclusion
+
+Assignment 7 successfully transforms the previous multi-client chat application into a more secure network application. The project demonstrates how authentication, password hashing, validation, session management, and security logging can be integrated without redesigning the existing TCP communication architecture.
+
+The assignment provides practical experience in securing network applications and verifying their behavior using Wireshark.
+
+---
+
+# Assignment 8: Application Optimization, Scalability and Reliability
+
+## 📌 Overview
+
+Assignment 8 extends the secure multi-client chat application developed in Assignment 7. The main focus is **connection management, reliability, scalability, configuration management, and performance evaluation**.
+
+The existing communication protocol and security features are retained. The server and client are optimized to handle multiple concurrent clients, recover from network failures, clean up disconnected sessions, and use configurable runtime parameters.
+
+Performance is evaluated using **5, 8, and 10 concurrent clients**, with measurements for delay, throughput, CPU usage, and memory usage.
+
+---
+
+## 🎯 Objectives
+
+The objectives of this assignment are to:
+
+- Improve client connection management.
+- Detect and clean up disconnected clients.
+- Implement socket timeout handling.
+- Add automatic client reconnection.
+- Implement graceful server shutdown.
+- Improve exception handling.
+- Support at least 10 concurrent clients.
+- Improve thread management.
+- Move configurable values to `config.json`.
+- Measure application performance.
+- Compare baseline and optimized implementations.
+- Generate performance graphs.
+- Verify TCP communication using Wireshark.
+
+---
+
+## 📚 Learning Outcomes
+
+After completing this assignment, the following concepts are understood:
+
+- Connection Management
+- Socket Timeout
+- Automatic Reconnection
+- Graceful Shutdown
+- Exception Handling
+- Thread Pool Management
+- Concurrent Client Scalability
+- Configuration Management
+- Performance Benchmarking
+- CPU and Memory Analysis
+- Network Delay and Throughput
+- Wireshark Verification
+
+---
+
+## 🏗 Optimized System Architecture
+
+```text
+                         +----------------------+
+                         |     TCP Server       |
+                         |      Port 5000       |
+                         +----------+-----------+
+                                    |
+                         ThreadPoolExecutor
+                                    |
+          +------------+------------+------------+
+          |            |            |            |
+          ▼            ▼            ▼            ▼
+      Client 1     Client 2     Client 3     ... Client 10
+       Tkinter      Tkinter      Tkinter          Tkinter
+          |            |            |                |
+          +------------+------------+----------------+
+                                    |
+                           Connection Management
+                                    |
+                +-------------------+-------------------+
+                |                   |                   |
+                ▼                   ▼                   ▼
+          Authentication      Session Manager      Cleanup
+                |                   |                   |
+                ▼                   ▼                   ▼
+           users.csv        Timeout/Reconnect      Security Log
+```
+
+---
+
+## 🔧 Major Improvements
+
+### 1. Connection Management
+
+The server now detects disconnected clients and removes stale sessions.
+
+When a client disconnects:
+
+```text
+Client Disconnect
+      ↓
+Detect Socket Error / Close
+      ↓
+Close Socket
+      ↓
+Remove Client
+      ↓
+Remove Username Mapping
+      ↓
+Notify Remaining Clients
+      ↓
+Write Log Entry
+```
+
+This prevents stale connections and unnecessary resource usage.
+
+### 2. Automatic Reconnection
+
+The GUI client attempts to reconnect when the TCP connection is unexpectedly lost.
+
+```text
+Connection Lost
+      ↓
+Reconnect Attempt 1
+      ↓
+Reconnect Attempt 2
+      ↓
+Reconnect Attempt 3
+      ↓
+...
+      ↓
+Connection Restored
+```
+
+### 3. Socket Timeout
+
+Timeout values prevent network operations from blocking indefinitely.
+
+### 4. Graceful Shutdown
+
+The server handles shutdown signals and closes active sockets and worker resources before terminating.
+
+### 5. Improved Exception Handling
+
+Network errors such as:
+
+```text
+ConnectionResetError
+ConnectionAbortedError
+BrokenPipeError
+TimeoutError
+OSError
+```
+
+are handled without crashing the complete server.
+
+---
+
+## 🚀 Scalability Improvement
+
+A controlled thread pool is used for client handling.
+
+```python
+ThreadPoolExecutor
+```
+
+The number of workers is configurable rather than creating unlimited threads.
+
+The application is tested with:
+
+```text
+5 Clients
+8 Clients
+10 Clients
+```
+
+The target is to maintain stable communication without application crashes while handling at least 10 concurrent clients.
+
+---
+
+## ⚙️ Configuration Management
+
+Runtime parameters are stored in:
+
+```text
+config.json
+```
+
+Example:
+
+```json
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 5000,
+    "backlog": 20,
+    "max_workers": 10,
+    "socket_timeout": 5,
+    "shutdown_timeout": 5
+  },
+  "security": {
+    "users_file": "users.csv",
+    "security_log_file": "security_log.txt",
+    "session_timeout": 300,
+    "lockout_duration": 60,
+    "max_failed_attempts": 5
+  },
+  "application": {
+    "history_file": "chat_history.csv",
+    "performance_file": "performance_results.csv",
+    "buffer_size": 4096,
+    "max_message_length": 1000,
+    "max_clients": 10
+  }
+}
+```
+
+This makes the application easier to configure and maintain without modifying the main source code.
+
+---
+
+## 📂 Project Structure
+
+```text
+Assignment-08-Optimization-Scalability/
+│
+├── server.py
+├── client_gui.py
+├── config.json
+├── users.csv
+├── security_log.txt
+├── chat_history.csv
+│
+├── benchmark.py
+├── generate_graphs.py
+├── performance_results.csv
+│
+├── graphs/
+│   ├── delay_comparison.png
+│   ├── throughput_comparison.png
+│   ├── cpu_comparison.png
+│   └── memory_comparison.png
+│
+├── screenshots/
+│   ├── mininet_topology.png
+│   ├── five_clients.png
+│   ├── eight_clients.png
+│   ├── ten_clients.png
+│   └── wireshark_capture.png
+│
+└── README.md
+```
+
+---
+
+## 🌐 Mininet Testing
+
+The required Mininet topology is:
+
+```bash
+sudo mn --topo single,11
+```
+
+The topology provides one switch and sufficient hosts for the 10-client experiment.
+
+### Verify Nodes
+
+```bash
+mininet> nodes
+```
+
+### Verify Network
+
+```bash
+mininet> net
+```
+
+### Test Connectivity
+
+```bash
+mininet> pingall
+```
+
+The application is evaluated using:
+
+```text
+5 concurrent clients
+8 concurrent clients
+10 concurrent clients
+```
+
+---
+
+## 📊 Performance Evaluation
+
+A benchmarking program is used to collect actual experimental results.
+
+The measurements include:
+
+- Average delay
+- Throughput
+- CPU utilization
+- Memory utilization
+- Number of clients
+- Number of messages
+- Errors
+- Test duration
+
+Results are stored in:
+
+```text
+performance_results.csv
+```
+
+### Example Commands
+
+```bash
+python3 benchmark.py --clients 5 --mode baseline
+python3 benchmark.py --clients 8 --mode baseline
+python3 benchmark.py --clients 10 --mode baseline
+```
+
+For the optimized implementation:
+
+```bash
+python3 benchmark.py --clients 5 --mode optimized
+python3 benchmark.py --clients 8 --mode optimized
+python3 benchmark.py --clients 10 --mode optimized
+```
+
+Graphs can then be generated using:
+
+```bash
+python3 generate_graphs.py
+```
+
+---
+
+## 📈 Performance Result Table
+
+The final experimental values should be filled using the actual benchmark output.
+
+| Clients | Average Delay (ms) | Throughput (msg/s) | CPU (%) | Memory (MB) |
+|---------:|-------------------:|--------------------:|--------:|------------:|
+| 5 | ___ | ___ | ___ | ___ |
+| 8 | ___ | ___ | ___ | ___ |
+| 10 | ___ | ___ | ___ | ___ |
+
+### Generated Graphs
+
+```text
+graphs/
+├── delay_comparison.png
+├── throughput_comparison.png
+├── cpu_comparison.png
+└── memory_comparison.png
+```
+
+The graphs compare the baseline Assignment 7 implementation with the optimized Assignment 8 implementation.
+
+---
+
+## 📡 Wireshark Verification
+
+Wireshark is used to verify normal TCP communication after optimization.
+
+### Display Filter
+
+```text
+tcp.port == 5000
+```
+
+The following traffic can be captured:
+
+- TCP connection establishment
+- Client-server communication
+- Chat messages
+- Client disconnection
+- Connection termination
+
+Recommended screenshot:
+
+```text
+screenshots/wireshark_capture.png
+```
+
+---
+
+## 🧪 Reliability Testing
+
+| Test Case | Expected Result |
+|-----------|-----------------|
+| Normal connection | Client connects successfully |
+| Client closes normally | Server cleans up session |
+| Sudden client disconnect | Server detects and removes client |
+| Temporary network failure | Client attempts reconnection |
+| Socket timeout | Operation does not block indefinitely |
+| Server shutdown | Resources are released gracefully |
+| 5 clients | Stable communication |
+| 8 clients | Stable communication |
+| 10 clients | Stable communication |
+
+---
+
+## 📈 Performance Analysis
+
+The Assignment 8 optimization is evaluated by comparing the original and optimized implementations.
+
+The analysis should consider:
+
+- Whether delay increases as client count increases.
+- Whether throughput remains stable.
+- CPU usage under concurrent connections.
+- Memory consumption as clients increase.
+- Number of errors or failed connections.
+- Stability during the 10-client test.
+
+Actual experimental values should be used in the final report rather than estimated values.
+
+---
+
+## 🔍 Key Features
+
+- Secure User Authentication
+- User Registration
+- SHA-256 Password Hashing
+- Duplicate Login Prevention
+- Failed Login Protection
+- Session Timeout
+- Multi-Client TCP Communication
+- Automatic Reconnection
+- Connection Cleanup
+- Socket Timeout
+- Graceful Shutdown
+- Thread Pool Management
+- Configurable Runtime Parameters
+- Performance Benchmarking
+- CPU and Memory Monitoring
+- Wireshark Verification
+- Mininet Scalability Testing
+
+---
+
+## ✅ Results
+
+Assignment 8 extends the secure chat application with improved reliability and scalability. The optimized server is designed to manage multiple concurrent clients using controlled worker threads while handling disconnections and network failures safely.
+
+The configuration system simplifies deployment and testing, while the benchmarking tools provide a structured way to measure delay, throughput, CPU usage, and memory usage for 5, 8, and 10 clients.
+
+---
+
+## 🚀 Future Enhancements
+
+Possible future improvements include:
+
+- Database-backed authentication
+- Stronger password hashing such as Argon2 or bcrypt
+- TLS/SSL encrypted communication
+- Distributed server architecture
+- Load balancing
+- Redis-based session management
+- WebSocket support
+- Cloud deployment
+- Docker and Kubernetes deployment
+- Real-time monitoring dashboard
+- Advanced performance monitoring
+- Automated load testing
+
+---
+
+## 🎓 Conclusion
+
+Assignment 8 successfully extends the secure multi-client TCP chat application by improving **connection management, reliability, scalability, configuration, and performance evaluation**. Automatic reconnection, timeout handling, graceful shutdown, resource cleanup, controlled thread management, and centralized configuration make the application more robust and maintainable.
+
+Testing with 5, 8, and 10 concurrent clients provides a practical basis for evaluating scalability. Performance measurements and Wireshark verification further demonstrate how the optimized network application behaves under increasing client load.
+
+Together, Assignments 7 and 8 transform the earlier chat application into a more secure, reliable, configurable, and scalable network application.
