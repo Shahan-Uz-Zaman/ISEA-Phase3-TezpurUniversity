@@ -1,0 +1,14 @@
+2026-08-26 20:46:39 | SIGNUP_SUCCESS | user=shahan | addr=10.0.0.2:39364 | account created
+2026-08-26 20:48:57 | LOGIN_SUCCESS | user=shahan | addr=10.0.0.2:41998 | authentication successful
+2026-08-26 20:50:55 | SIGNUP_SUCCESS | user=rashmi | addr=10.0.0.3:49596 | account created
+2026-08-26 20:51:01 | LOGIN_SUCCESS | user=rashmi | addr=10.0.0.3:56558 | authentication successful
+2026-08-26 20:51:05 | LOGOUT | user=rashmi | addr=10.0.0.3:56558 | client requested logout
+2026-08-26 20:51:23 | LOGIN_FAILED | user=rashmi | addr=10.0.0.3:49408 | consecutive_failed_attempts=1
+2026-08-26 20:53:01 | LOGIN_FAILED | user=rashmi | addr=10.0.0.3:35070 | consecutive_failed_attempts=2
+2026-08-26 20:53:03 | LOGIN_FAILED | user=rashmi | addr=10.0.0.3:35082 | consecutive_failed_attempts=3
+2026-08-26 20:53:04 | LOGIN_FAILED | user=rashmi | addr=10.0.0.3:35090 | consecutive_failed_attempts=4
+2026-08-26 20:53:08 | LOGIN_FAILED | user=rashmi | addr=10.0.0.3:35092 | consecutive_failed_attempts=5
+2026-08-26 20:53:08 | ACCOUNT_LOCKED | user=rashmi | addr=10.0.0.3:35092 | duration=60s
+2026-08-26 20:54:27 | LOGIN_SUCCESS | user=rashmi | addr=10.0.0.3:45748 | authentication successful
+2026-08-26 20:57:34 | LOGOUT | user=shahan | addr=10.0.0.2:41998 | client requested logout
+2026-08-26 20:57:35 | LOGOUT | user=rashmi | addr=10.0.0.3:45748 | client requested logout
